@@ -1,0 +1,663 @@
+<!--
+<div *ngIf="isLoaded">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+     <mat-progress-bar mode="buffer"></mat-progress-bar>
+  </div>
+-->  
+<div class="card">
+    <div class="card-body">
+            <form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+            <div class="form-row">
+                    <!-- Grid column -->
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-label>Invoice No</mat-label>
+                            <input matInput placeholder="Invoice No" [(ngModel)]="inv.name" name="name" id="name" required>
+                            <input hidden matInput placeholder="Invoice Id" [(ngModel)]="inv.id" name="id" id="id">
+                            <input hidden matInput placeholder="Invoice No Hid" [(ngModel)]="inv.invoiceNo" name="invoiceNo"
+                                id="invoiceNo">
+                        </mat-form-field>
+                    </div>    
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-label>Select Customer</mat-label>
+                            <mat-select  [(ngModel)]="inv.customerId" id="customerId" name="customerId"
+                                placeholder="Select Customer" (selectionChange)="customerChange($event.value)" [disabled]="false">
+                                <mat-option value="null">Select Customer...</mat-option>
+                                <mat-option *ngFor="let item of customer_list" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput [matDatepicker] = "picker" [value]='inv.invoiceDate' [(ngModel)]="inv.invoiceDate" placeholder = "Choose a date" name="invoiceDate">
+                            <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                         </mat-form-field>
+                    </div>
+                </div>
+                <br>
+
+        <div class="example-container">
+        <button type="button" mat-raised-button (click)="show()">
+            <mat-icon color="accent">add</mat-icon> Add Invoice
+        </button>
+        <br />
+        <div *ngIf="showTable">
+            <!-- ----------------------------Add user table----------------------------------->
+            <table mat-table [dataSource]="dataSourceAddUser">
+                <!-- Name Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> </th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.id" [(ngModel)]="element.id" name="id" matInput
+                                placeholder="id">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="productId">
+                    <th mat-header-cell *matHeaderCellDef> Product List</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field>
+                            <mat-label>Select Product</mat-label>
+                            <mat-select id="productId" (selectionChange)="change_product(element,$event.value)"
+                                [value]="element.productId" [(ngModel)]="element.productId"
+                                placeholder="Select Product" name="productId"  [formControl]="productId" required>
+                                <mat-option value="null">Select Product...</mat-option>
+                                <mat-option *ngFor="let item of product_list" [value]="item.id">{{item.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="productId.invalid">{{getErrorMessage()}}</mat-error>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="preProductId">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> </th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.preProductId" [(ngModel)]="element.preProductId" name="preProductId" matInput
+                                placeholder="preProductId">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hsnCode">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> </th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.hsnCode" [(ngModel)]="element.hsnCode" name="hsnCode" matInput
+                                placeholder="HSN Code">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- rate Column -->
+                <ng-container matColumnDef="rate">
+                    <th mat-header-cell *matHeaderCellDef> Rate</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input type="number" matInput placeholder="rate" [value]="element.rate"
+                                [(ngModel)]="element.rate" name="rate" [formControl]="rate" required>
+                                <mat-error *ngIf="rate.invalid">{{rateGetErrorMessage()}}</mat-error>
+                        </mat-form-field>
+                        
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="uomId">
+                    <th mat-header-cell *matHeaderCellDef> UOM</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field>
+                            <mat-label>Select UOM</mat-label>
+                            <mat-select id="uom_list" [value]="element.uomId" [(ngModel)]="element.uomId"
+                                placeholder="Select UOM" name="uomId">
+                                <mat-option value="null">Select UOM...</mat-option>
+                                <mat-option *ngFor="let item of uom_list" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- quantity Column -->
+                <ng-container matColumnDef="quantity">
+                    <th mat-header-cell *matHeaderCellDef> Quantity</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input #quantity [value]="element.quantity" [(ngModel)]="element.quantity" name="quantity"
+                                matInput placeholder="Enter your quantity" required
+                                (keyup)="onQuanityChange(element,quantity.value)"
+                                (blur)="onQuanityChange(element,quantity.value)"
+                                >
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="preQuantity">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> </th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.preQuantity" [(ngModel)]="element.preQuantity" name="preQuantity" matInput
+                                placeholder="preQuantity">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- quantity Column -->
+                <ng-container matColumnDef="totalPrice">
+                    <th mat-header-cell *matHeaderCellDef> Bill Amt</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.totalPrice" [(ngModel)]="element.totalPrice" name="totalPrice" matInput
+                                placeholder="Enter your totalPrice" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- quantity Column -->
+                <ng-container matColumnDef="discPer">
+                    <th mat-header-cell *matHeaderCellDef>Disc Per. </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input #discPer  [value]="element.discPer" [(ngModel)]="element.discPer" name="discPer" matInput
+                                placeholder="Enter your Discount Per" required (keyup.enter)="onDiscountChange(element,discPer.value)"
+                                (blur)="onDiscountChange(element,discPer.value)">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="discAmt">
+                    <th mat-header-cell *matHeaderCellDef>Disc Amt. </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.discAmt" [(ngModel)]="element.discAmt" name="discAmt" matInput
+                                placeholder="Enter your Discount Amt">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- quantity Column -->
+                <ng-container matColumnDef="taxableAmt">
+                    <th mat-header-cell *matHeaderCellDef> Tax Amt.</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.taxableAmt" [(ngModel)]="element.taxableAmt" name="taxableAmt"
+                                matInput placeholder="Enter your Taxable Amt" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sgstPer">
+                    <th mat-header-cell *matHeaderCellDef> SGST %.</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.sgstPer " [(ngModel)]="element.sgstPer" name="sgstPer" matInput
+                                placeholder="Enter SGST %" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="sgstAmt">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> SGST Amt.</th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never" [style.display]="'none'">
+                            <input [value]="element.sgstAmt " [(ngModel)]="element.sgstAmt" name="sgstAmt" matInput
+                                placeholder="Enter SGST Amt" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="cgstPer">
+                    <th mat-header-cell *matHeaderCellDef> CGST %.</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.cgstPer " [(ngModel)]="element.cgstPer" name="cgstPer" matInput
+                                placeholder="Enter CGST %" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="cgstAmt" [style.display]="'none'">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> CGST Amt.</th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.cgstAmt " [(ngModel)]="element.cgstAmt" name="cgstAmt" matInput
+                                placeholder="Enter CGST Amt" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="igstPer">
+                    <th mat-header-cell *matHeaderCellDef> IGST %.</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never">
+                            <input [value]="element.igstPer " [(ngModel)]="element.igstPer" name="igstPer" matInput
+                                placeholder="Enter IGST %" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="igstAmt">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> IGST Amt.</th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never" [style.display]="'none'">
+                            <input [value]="element.igstAmt " [(ngModel)]="element.igstAmt" name="igstAmt" matInput
+                                placeholder="Enter IGST Amt" required>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="invoiceId" [style.display]="'none'">
+                    <th mat-header-cell *matHeaderCellDef [style.display]="'none'"> Invoice</th>
+                    <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                        <mat-form-field floatLabel="never">
+                            <input [(ngModel)]="element.invoiceId" name="invoiceId" id="invoiceId" matInput
+                                placeholder="Enter Invoice">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <!-- Save Column -->
+                <ng-container matColumnDef="Save">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button type="button" (click)="saveUser(element)" [disabled]="productId.invalid || rate.invalid  ">
+                            <mat-icon color="accent">save</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Cancel Column -->
+                <ng-container matColumnDef="Cancel">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="cancel(element.taxableAmt)">
+                            <mat-icon color="accent">cancel</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsAddUser"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsAddUser;"></tr>
+            </table>
+        </div>
+
+        </div>
+        <br>
+
+        <!-- ----------------------------Users table----------------------------------->
+        <div class="form-row">
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSourceInvoiceDetailsList" matSort class="mat-elevation-z8">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
+                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="productId" fxFlex="70px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-select id="product_list" [value]="element.productId" [(ngModel)]="element.productId" (selectionChange)="change_product(element,$event.value)" placeholder="Select Product" [ngModelOptions]="{standalone: true}">
+                                <mat-option value="null">Select Product...</mat-option>
+                                <mat-option *ngFor="let item of product_list" [value]="item.id">{{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="preProductId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> preProductId </th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="preProductId" [value]="element.preProductId" [(ngModel)]="element.preProductId" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="hsnCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> HSN Code </th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="HSN Code" [value]="element.hsnCode" [(ngModel)]="element.hsnCode" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- rate Column -->
+                    <ng-container matColumnDef="rate" fxFlex="40px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="Rate" [value]="element.rate"
+                                    [(ngModel)]="element.rate" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="uomId" fxFlex="60px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UOM </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-select id="uom_list" [value]="element.uomId"
+                                [(ngModel)]="element.uomId" placeholder="Select UOM" [ngModelOptions]="{standalone: true}">
+                                <mat-option value="null">Select UOM...</mat-option>
+                                <mat-option *ngFor="let item of uom_list" [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </td>
+                    </ng-container>
+
+                    <!-- quantity Column -->
+                    <ng-container matColumnDef="quantity" fxFlex="30px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input #quantity matInput  placeholder="Quantity" [value]="element.quantity" [(ngModel)]="element.quantity" 
+                                (keyup)="onQuanityChange(element,quantity.value)"
+                                (blur)="onQuanityChange(element,quantity.value)" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="preQuantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> preQuantity </th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="preQuantity" [value]="element.preQuantity" [(ngModel)]="element.preQuantity" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalPrice">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Bill Amt </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="Bill Amt" [value]="element.totalPrice"
+                                    [(ngModel)]="element.totalPrice" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- Delete Column -->
+                    <ng-container matColumnDef="discPer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Disc % </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input #discPer matInput placeholder="Disc Per" [value]="element.discPer"
+                                    [(ngModel)]="element.discPer" (keyup.enter)="onDiscountChange(element,discPer.value)"
+                                    (blur)="onDiscountChange(element,discPer.value)" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- Delete Column -->
+                    <ng-container matColumnDef="discAmt" [style.display]="'none'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> Disc Amt </th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="Disc Per" [value]="element.discAmt"
+                                    [(ngModel)]="element.discAmt" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="taxableAmt" fxFlex="40px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Taxable Amt </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="Taxable Amt" [value]="element.taxableAmt"
+                                    [(ngModel)]="element.taxableAmt" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="sgstPer" fxFlex="20px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> SGST %</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="SGST %" [value]="element.sgstPer"
+                                    [(ngModel)]="element.sgstPer" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="sgstAmt" fxFlex="20px" [style.display]="'none'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> SGST Amt</th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="SGST Amt" [value]="element.sgstAmt"
+                                    [(ngModel)]="element.sgstAmt" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="cgstPer" fxFlex="20px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> CGST %</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="CGST %" [value]="element.cgstPer"
+                                    [(ngModel)]="element.cgstPer" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="cgstAmt" fxFlex="20px" [style.display]="'none'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> CGST Amt</th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="CGST Amt" [value]="element.cgstAmt"
+                                    [(ngModel)]="element.cgstAmt" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="igstPer" fxFlex="20px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> IGST %</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="IGST %" [value]="element.igstPer"
+                                    [(ngModel)]="element.igstPer" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!-- productId Column -->
+                    <ng-container matColumnDef="igstAmt" fxFlex="20px" [style.display]="'none'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> IGST Amt</th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-form-field floatLabel="never">
+                                <input matInput placeholder="IGST Amt" [value]="element.igstAmt"
+                                    [(ngModel)]="element.igstAmt" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <!--
+                        <ng-container matColumnDef="inv" fxFlex="40px">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-form-field floatLabel="never">
+                                    <input matInput name="inv" placeholder="Invoice" [value]="element.inv.id"
+                                        [(ngModel)]="element.taxableAmt">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        -->
+                    <ng-container matColumnDef="invoiceId" [style.display]="'none'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'"> Invoice </th>
+                        <td mat-cell *matCellDef="let element" [style.display]="'none'">
+                            <mat-select id="invoice_list" [(ngModel)]="element.invoiceId"
+                                id="invoiceId" placeholder="Select Invoice" [ngModelOptions]="{standalone: true}">
+                                <mat-option value="null">Select Invoice...</mat-option>
+                                <mat-option *ngFor="let item of invoice_list" [value]="item.id">{{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                    </ng-container>
+
+                    <!-- Change Column -->
+                    <ng-container matColumnDef="Change">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button type="button" (click)="updateInvoice(element)">
+                                <mat-icon color="accent">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <!-- Delete Column -->
+                    <ng-container matColumnDef="Delete">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button (click)="cancel(element.taxableAmt)">
+                                <mat-icon color="accent">delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>Payment Mode :</th>
+                            <td>
+                                <mat-form-field>
+                                    <mat-select id="payment_mode_list" [(ngModel)]="inv.paymentModeId"
+                                        id="paymentModeId" name="paymentModeId">
+                                        <mat-option *ngFor="let item of payment_mode_list" [value]="item.id">
+                                            {{item.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Account :</th>
+                            <td>
+                                <mat-select id="account_list" [(ngModel)]="inv.accountId" id="accountId"
+                                    name="accountId" placeholder="Select Account">
+                                    <mat-option value="null">Select Account...</mat-option>
+                                    <mat-option *ngFor="let item of account_list" [value]="item.id">{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Cheque / DD Number:</th>
+                            <td>
+                                <input type="text" class="form-control" id="chequeNo" [(ngModel)]="inv.chequeNo"
+                                    name="chequeNo" placeholder="Cheque / DD Number.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Bank Name:</th>
+                            <td>
+                                <input type="text" class="form-control" id="bankName" [(ngModel)]="inv.bankName"
+                                    name="bankName" placeholder="Bank Name.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Amount Paid :</th>
+                            <td>
+                                <input #amountPaid class="form-control" placeholder="Amount Paid" [(ngModel)]="inv.amountPaid"
+                                    name="amountPaid" required (keyup.enter)="onAmountPaidChange(amountPaid.value)"
+                                    (blur)="onAmountPaidChange(amountPaid.value)" >
+
+                                <input type="text" class="form-control" id="amountPaidHid" name="amountPaidHid"
+                                    [(ngModel)]="inv.amountPaidHid" style="text-align:right;">    
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Amount Due:</th>
+                            <td>
+                                <input class="form-control" placeholder="Amount Due" [(ngModel)]="inv.amountDue"
+                                    name="amountDue" required>
+
+                                <input type="text" class="form-control" id="amountDueHid" name="amountDueHid"
+                                    [(ngModel)]="inv.amountDueHid" style="text-align:right;">      
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table">
+
+                        <tr>
+                            <th>Total Tax :</th>
+                            <td>
+                                <input type="text" class="form-control" id="taxAmt" name="taxAmt"
+                                    [(ngModel)]="inv.taxAmt" style="text-align:right;">
+
+                                    <input type="text" class="form-control" id="taxAmtHid" name="taxAmtHid"
+                                    [(ngModel)]="inv.taxAmtHid" style="text-align:right;">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Total Discount :</th>
+                            <td>
+                                <input type="text" class="form-control" id="discountAmt" name="discountAmt"
+                                    [(ngModel)]="inv.discountAmt" style="text-align:right;">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Billled Amount:</th>
+                            <td>
+                                    <input type="text" class="form-control" id="billAmt" name="billAmt"
+                                    [(ngModel)]="inv.billAmt" style="text-align:right;">
+
+                                    <input type="text" class="form-control" id="billAmtHid" name="billAmtHid"
+                                    [(ngModel)]="inv.billAmtHid" style="text-align:right;">
+
+                            </td>
+                        </tr>
+                        <!--
+                        <tr>
+                            <th>Additional Discount:</th>
+                            <td><input type="text" class="form-control" id="addDiscAmt" name="addDiscAmt"
+                                    [(ngModel)]="inv.addDiscAmt">
+                            </td>
+                        </tr>
+                        -->
+                        <tr>
+                            <th>Round Value:</th>
+                            <td><input type="text" class="form-control" id="roundAmt" name="roundAmt"
+                                    [(ngModel)]="inv.roundAmt" style="text-align:right;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Grand Total (Net Amount):</th>
+                            <td><input type="text" class="form-control" id="invoiceAmt" name="invoiceAmt"
+                                    [(ngModel)]="inv.invoiceAmt" style="text-align:right;">
+
+                                    <input type="text" class="form-control" id="invoiceAmtHid" name="invoiceAmtHid"
+                                    [(ngModel)]="inv.invoiceAmtHid" style="text-align:right;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- <button type="submit" class="btn btn-primary" (click)="save(this.inv)">Save changes</button>-->
+        <button type="submit" class="btn btn-primary" >Save changes</button>
+        <br>
+
+        <ng-template #stillLoading>
+            <p>Loading...</p>
+        </ng-template>
+    </form>
+    </div>
+</div>

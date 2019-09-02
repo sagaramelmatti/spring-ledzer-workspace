@@ -1,0 +1,7 @@
+.modal-lg, .modal-xl {
+    max-width: 950px;
+}
+
+.main .container-fluid {
+    padding: 0 10px;
+}

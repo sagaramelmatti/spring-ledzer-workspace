@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+			  <button type="button" class="btn btn-info"  [routerLink]="['/customer/customer-add']">Add New Customer</button>
+                <br />
+                <br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id </th>
+                <th>Name</th>
+                <th>Cont. No.</th>
+                <th>City</th>
+                <th>Balance</th>
+                <th>Reg. Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customer_list">
+                <td>{{customer.id}}</td>
+                <td>{{customer.name}}</td>
+                <td>{{customer.mobno}}</td>
+                <td>{{customer.city}}</td>
+                <td>{{customer.outBal}}</td>
+                <td>{{customer.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td><button class="btn btn-warning" [routerLink]="['/customer/customer-edit', customer.id]">Edit</button>&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="remove(customer)">Delete</button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+         
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+

@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+              <div>
+                  <button type="button" class="btn btn-info"  [routerLink]="['/accounts/accountgroup-add']">Add New Account Group</button>
+              </div>
+      <br />
+      <br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Parent Account Group</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let accgroup of accountgroup_list">
+                <td>{{accgroup.id}}</td>
+                <td>{{accgroup.name}}</td>
+                <ng-template [ngIf]="accgroup.accountGroup != null " [ngIfElse]="loggedOut">
+                  <td>
+                    {{accgroup.accountGroup.name}}
+                  </td>
+                </ng-template>
+                <ng-template #loggedOut>
+                    <td  #noname>--NA--</td>
+                </ng-template>
+                <td>
+                    <button class="btn btn-warning" [routerLink]="['/accounts/accountgroup-edit', accgroup.id]">Edit</button>&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="remove(accgroup)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+

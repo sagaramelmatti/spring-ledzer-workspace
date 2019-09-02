@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-11">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Purchase History
+          </div>
+          <div class="card-body">
+                <button type="button" class="btn btn-info"  [routerLink]="['/purchase_obj/purchase_obj-add']">Add New Customer</button>
+                  <br />
+                  <br />
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Purchase No</th>
+                  <th>Purchase Date</th>
+                  <th>Supplier Name</th>
+                  <th>Total Amount</th>
+                  <th>Amount Paid</th>
+                  <th>Amount Due</th>
+                  <th>Tax</th>
+                  <th>Payment Mode</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let purchase_obj of purchase_history_list">
+                  <td>{{purchase_obj.id}}</td>
+                  <td>{{purchase_obj.name}}</td>
+                  <td>{{purchase_obj.purchaseDate | date: 'dd/MM/yyyy'}}</td>
+                  <td>{{purchase_obj.supplierName}}</td>
+                  <td>{{purchase_obj.billAmt}}</td>
+                  <td>{{purchase_obj.amountPaid}}</td>
+                  <td>{{purchase_obj.amountDue}}</td>
+                  <td>{{purchase_obj.taxAmt}}</td>
+                  <td>{{purchase_obj.paymentModeName}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+           
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <!--/.row-->
+  </div>
+  
+  

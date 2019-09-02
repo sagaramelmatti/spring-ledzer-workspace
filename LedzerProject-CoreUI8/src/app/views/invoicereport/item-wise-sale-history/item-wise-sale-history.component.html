@@ -1,0 +1,56 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg-11">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Item Wise Sale History
+          </div>
+          <div class="card-body">
+                
+            <table class="table">
+              <thead>
+                <tr>
+                        <th>Sr. No.</th>
+                        <th>Item Name</th>
+                        <th>UOM</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Sale Date</th>
+                        <th>Invoice Name</th>
+                        <!--<th>Rem Stock</th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item_wise_sale of item_wise_sale_history_list">
+                  <td>{{item_wise_sale.id}}</td>
+                  <td>{{item_wise_sale.itemName}}</td>
+                  <td>{{item_wise_sale.uomName}}</td>
+                  <td>{{item_wise_sale.rate}}</td>
+                  <td>{{item_wise_sale.quantity}}</td>
+                  <td>{{item_wise_sale.amount}}</td>
+                  <td>{{item_wise_sale.saleDate | date: 'dd/MM/yyyy'}}</td>
+                  <td>{{item_wise_sale.invoiceName}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-info" [routerLink]="['/invoicereport/item-wise-sale-history-pdf']">Print Invoicee History PDF Report</button>
+            </div> 
+            <div class="col-md-6">
+              <button type="button" class="btn btn-success" [routerLink]="['/invoicereport/item-wise-sale-history-excel']">Print Invoicee History Excel Report </button>
+            </div>  
+           
+          </div>
+          
+          <br />
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <!--/.row-->
+  </div>
+  
+  

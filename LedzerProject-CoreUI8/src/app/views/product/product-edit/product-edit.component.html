@@ -1,0 +1,149 @@
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add New Product</h4>
+        <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+          <strong>Product</strong> Form</div>
+          <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row required">
+                            <label class="col-md-4 col-form-label" for="contactPerson">Product Code</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="code" [(ngModel)]="product.code" name="code" placeholder="Enter Product Code..">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="name">Product Name</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="name" required [(ngModel)]="product.name" name="name" placeholder="Enter Product Name..">
+                            <!--<span class="help-block">Please enter your email</span>-->
+                            <input type="hidden" class="form-control" id="id"  [(ngModel)]="product.id" name="id">
+                          </div>
+                      </div>
+                  </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="category">Category</label>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="product.category.id" id="category" name="category">
+                                <option value="null">select a Category...</option>
+                                <option *ngFor="let item of category_list" [value]="item.id">{{item.name}}</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-md-4 col-form-label" for="discountPer">Discount ( Percentage )</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="discountPer" [(ngModel)]="product.discountPer" name="discountPer" placeholder="Enter Discount..">
+                                <!--<span class="help-block">Please enter your password</span>-->
+                              </div>
+                            </div>
+                        </div>
+                </div>  
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="uom">Unit Of Mesure</label>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="product.uom.id" id="uom" name="uom">
+                                <option value="null">select a UOM...</option>
+                                <option *ngFor="let item of uom_list" [value]="item.id">{{item.name}}</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="salePrice">Rate per Item /  Selling Prize</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="salePrice" [(ngModel)]="product.salePrice" name="salePrice" placeholder="Enter Selling Prize ">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="saleTaxId">GST % For Selling Price</label>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="product.saleTaxId.id" id="saleTaxId" name="saleTaxId">
+                                <option value="null">select a Tax %...</option>
+                                <option *ngFor="let item of tax_list" [value]="item.id">{{item.name}}</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="purchasePrice">Purchase Rate</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="purchasePrice" [(ngModel)]="product.purchasePrice" name="purchasePrice" placeholder="Enter Purchase Rate ">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="purchaseTaxId">GST % For Purchase Price</label>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="product.purchaseTaxId.id" id="purchaseTaxId" name="purchaseTaxId">
+                                <option value="null">select a Tax %...</option>
+                                <option *ngFor="let item of tax_list" [value]="item.id">{{item.name}}</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="stock">Initial Quantity</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="stock" required [(ngModel)]="product.stock" name="stock" placeholder="Enter Initial Quantity ">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="lastStockDate">Stock Date</label>
+                            <div class="col-md-8">
+                              <input type="date" class="form-control" id="lastStockDate" required [(ngModel)]="product.lastStockDate" name="lastStockDate" placeholder="Enter Stock Date ">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+        <button type="submit" class="btn btn-primary" >Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+  </form>
+
+
+  
+  

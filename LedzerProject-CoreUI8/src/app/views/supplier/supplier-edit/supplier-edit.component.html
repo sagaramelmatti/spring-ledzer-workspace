@@ -1,0 +1,149 @@
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Add New Supplier</h4>
+      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+        <strong>Supplier</strong> Form</div>
+        <div class="card-body">
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="name">Supplier Name</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="name" required [(ngModel)]="supplier.name" name="name" placeholder="Enter Supplier Name..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                          <input type="hidden" class="form-control" id="id"  [(ngModel)]="supplier.id" name="id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row required">
+                      <label class="col-md-4 col-form-label" for="contactPerson">Contact Person</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="contactPerson" [(ngModel)]="supplier.contactPerson" name="contactPerson" placeholder="Enter Contact Person..">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div> 
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row required">
+                          <label class="col-md-4 col-form-label" for="mobno">Contact Number</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="mobno" [(ngModel)]="supplier.mobno" name="mobno" placeholder="Enter Supplier Name..">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label" for="address">Address</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="address" [(ngModel)]="supplier.address" name="address" placeholder="Enter Supplier Address..">
+                              <!--<span class="help-block">Please enter your password</span>-->
+                            </div>
+                          </div>
+                      </div>
+              </div>  
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="city">City</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="city" [(ngModel)]="supplier.city" name="city" placeholder="Enter City..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="state">State</label>
+                        <div class="col-md-8">
+                          <select class="form-control" [(ngModel)]="supplier.state.id" id="state" name="state">
+                            <option value="null">select a State...</option>
+                            <option *ngFor="let item of state_list" [value]="item.id">{{item.name}}</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                
+              </div>
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="pin">Pin</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="pin" [(ngModel)]="supplier.pin" name="pin" placeholder="Enter Pin ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                        </div>
+                    </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="email">Email</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="email" required [(ngModel)]="supplier.email" name="email" placeholder="Enter Email ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="gstin">Gstin</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="gstin" required [(ngModel)]="supplier.gstin" name="gstin" placeholder="Enter Gstin..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="status">Status</label>
+                          <div class="col-md-8">
+                              <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="status" id="active" value="ACTIVE" [(ngModel)]="supplier.status" [checked]="supplier.status == 'ACTIVE'" > Active
+                                </label>
+                              </div>
+                              <div class="form-check-inline">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="status" id="deactive" value="DEACTIVE" 
+                                  [(ngModel)]="supplier.status" [checked]="supplier.status == 'DEACTIVE'"> Deactive
+                                </label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="outBal">Out Standing Balance</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="outBal" required [(ngModel)]="supplier.outBal" name="outBal" placeholder="Enter Out Standing Balance ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+      <button type="submit" class="btn btn-primary" >Save changes</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+</form>

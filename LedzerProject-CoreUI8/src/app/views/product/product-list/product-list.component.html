@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+			  <button type="button" class="btn btn-info"  [routerLink]="['/product/product-add']">Add New Product</button>
+                <br />
+                <br />
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Sr. No. </th>
+                  <th>Product Name</th>
+                  <th>HSN code</th>
+                  <th>Category</th>
+                  <th>Rate</th>
+                  <th>UOM</th>
+                  <th>Tax %</th>
+                  <th>Purchase Rate</th>
+                  <th>Stock </th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of product_list">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.code}}</td>
+                <td>{{product.category.name}}</td>
+                <td>{{product.salePrice}}</td>
+                <td>{{product.uom.name}}</td>
+                <td>{{product.saleTaxId.name}}</td>
+                <td>{{product.purchasePrice}}</td>
+                <td>{{product.stock}}</td>
+                <td><button class="btn btn-warning" [routerLink]="['/product/product-edit', product.id]">Edit</button>&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="remove(product)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>

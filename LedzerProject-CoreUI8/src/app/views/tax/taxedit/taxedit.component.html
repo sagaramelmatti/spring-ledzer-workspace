@@ -1,0 +1,41 @@
+
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add New Tax</h4>
+          <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-header">
+            <strong>Tax</strong> Form</div>
+            <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="hf-email">Tax Name</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" id="name" required [(ngModel)]="tax.name" name="name" placeholder="Enter Tax Name..">
+                    <!--<span class="help-block">Please enter your email</span>-->
+                    <input type="hidden" class="form-control" id="id"  [(ngModel)]="tax.id" name="id">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="hf-password">Percentage</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" id="percentage" required [(ngModel)]="tax.percentage" name="percentage" placeholder="Enter Tax Name..">
+                    <!--<span class="help-block">Please enter your password</span>-->
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+          <button type="submit" class="btn btn-primary" >Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+  </form>

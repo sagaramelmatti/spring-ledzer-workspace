@@ -1,0 +1,57 @@
+
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+          <ng-template [ngIf]="url == 'category'" [ngIfElse]="subcategoryurl">
+            <h4 class="modal-title">Add New Category</h4>
+          </ng-template>
+          <ng-template #subcategoryurl>
+              <h4 class="modal-title">Add New Sub Category</h4>
+          </ng-template>
+      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+            <ng-template [ngIf]="url == 'category'" [ngIfElse]="subcategoryurl">
+                <strong>Category</strong> Form
+              </ng-template>
+              <ng-template #subcategoryurl>
+                  <strong>Sub Category</strong> Form
+              </ng-template>
+          </div>    
+        <div class="card-body">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="name">Category Name</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="name" required [(ngModel)]="cat.name" name="name" placeholder="Enter Category Name..">
+                <!--<span class="help-block">Please enter your email</span>-->
+                <input type="hidden" class="form-control" id="id"  [(ngModel)]="cat.id" name="id">
+              </div>
+            </div>
+          <ng-template [ngIf]="cat.category != null" >
+            <div class="form-group row">
+              <label class="control-label col-md-3"> Parent Category</label>
+              <div class="col-md-9">
+                <select class="form-control" [(ngModel)]="cat.category.id" id="category" name="category">
+                  <option value="null" selected>select a category...</option>
+                  <option *ngFor="let item of category_list" [value]="item.id">{{item.name}}</option>
+                </select>
+                <span class="help-block"></span>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+      <button type="submit" class="btn btn-primary" >Save changes</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+</form>

@@ -1,0 +1,178 @@
+
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Add New Customer</h4>
+      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+        <strong>Customer</strong> Form</div>
+        <div class="card-body">
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">Customer Name</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="name" required [(ngModel)]="customer.name" name="name" placeholder="Enter Customer Name..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                          <input type="hidden" class="form-control" id="id"  [(ngModel)]="customer.id" name="id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row required">
+                      <label class="col-md-4 col-form-label" for="hf-password">Contact Number</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="mobno" [(ngModel)]="customer.mobno" name="mobno" placeholder="Enter Customer Name..">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div> 
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">Gender</label>
+                        <div class="col-md-8">
+                            <div class="form-check-inline">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="gender" id="male" value="MALE" [(ngModel)]="customer.gender" [checked]="customer.gender == 'MALE'" > Male
+                              </label>
+                            </div>
+                            <div class="form-check-inline">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="gender" id="female" value="FEMALE" 
+                                [(ngModel)]="customer.gender" [checked]="customer.gender == 'FEMALE'"> Female
+                              </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-password">Address</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="address" [(ngModel)]="customer.address" name="address" placeholder="Enter Customer Address..">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>  
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">City</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="city" [(ngModel)]="customer.city" name="city" placeholder="Enter City..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-password">Pin</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="pin" [(ngModel)]="customer.pin" name="pin" placeholder="Enter Pin ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-state">State</label>
+                        <div class="col-md-8">
+                          <select class="form-control" [(ngModel)]="customer.state.id" id="state" name="state">
+                            <option value="null">select a State...</option>
+                            <option *ngFor="let item of state_list" [value]="item.id">{{item.name}}</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-email">Email</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="email" required [(ngModel)]="customer.email" name="email" placeholder="Enter Email ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">Gstin</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="gstin" required [(ngModel)]="customer.gstin" name="gstin" placeholder="Enter Gstin..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-password">Tin</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="tin" required [(ngModel)]="customer.tin" name="tin" placeholder="Enter Tin ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">VAT</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="vat" required [(ngModel)]="customer.vat" name="vat" placeholder="Enter VAT..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-password">PAN</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="pan" required [(ngModel)]="customer.pan" name="pan" placeholder="Enter PAN ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="hf-email">STN</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="stn" required [(ngModel)]="customer.stn" name="stn" placeholder="Enter STN..">
+                          <!--<span class="help-block">Please enter your email</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="hf-password">Out Standing Balance</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="outBal" required [(ngModel)]="customer.outBal" name="outBal" placeholder="Enter Out Standing Balance ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+      <button type="submit" class="btn btn-primary" >Save changes</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+</form>

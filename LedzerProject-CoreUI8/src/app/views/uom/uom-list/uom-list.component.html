@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+			  <button type="button" class="btn btn-info"  [routerLink]="['/uom/uom-add']">Add New Uom</button>
+                <br />
+                <br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let uom of uom_list">
+                <td>{{uom.id}}</td>
+                <td>{{uom.name}}</td>
+                <td><button class="btn btn-warning" [routerLink]="['/uom/uom-edit', uom.id]">Edit</button>&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="remove(uom)">Delete</button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          <!--
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+          -->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+

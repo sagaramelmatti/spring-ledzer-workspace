@@ -1,0 +1,174 @@
+<form class="form-horizontal" #frm="ngForm" (ngSubmit)="save()">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Add New Account</h4>
+      <button type="button" class="close" (click)="activeModal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+        <strong>Account</strong> Form</div>
+        <div class="card-body">
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="name">Account Name</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="name" required [(ngModel)]="account.name" name="name" placeholder="Enter Account Name..">
+                            <!--<span class="help-block">Please enter your email</span>-->
+                            <input type="hidden" class="form-control" id="id"  [(ngModel)]="account.id" name="id">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="accountGroup">Account Group</label>
+                          <div class="col-md-8">
+                            <select class="form-control" [(ngModel)]="account.accountGroup.id" id="accountGroup" name="accountGroup">
+                              <option value="null">select a Account Group...</option>
+                              <option *ngFor="let item of account_group_list" [value]="item.id">{{item.name}}</option>
+                            </select>
+                          </div>
+                      </div>
+                  </div>
+              </div> 
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="effectiveDate">Effective Date</label>
+                        <div class="col-md-8">
+                          <input type="date" class="form-control" id="effectiveDate" [(ngModel)]="account.effectiveDate" name="effectiveDate" placeholder="Enter Effective Date ">
+                          <!--<span class="help-block">Please enter your password</span>-->
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="balance">Opening Balance</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="balance" [(ngModel)]="account.balance" name="balance" placeholder="Enter Selling Prize ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                        </div>
+                  </div>
+              </div>  
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="accountNo">Account No</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="accountNo" [(ngModel)]="account.accountNo" name="accountNo" placeholder="Enter Account No ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                        </div>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="accountType">Account Type</label>
+                          <div class="col-md-8">
+                            <select class="form-control" [(ngModel)]="account.accountType" id="accountType" name="accountType">
+                              <!--
+                              <option *ngFor="let type of AccountType.values();"  [value]="type">{{type}}</option> -->
+                               <option value="null">select a Account Type...</option>
+                              <option *ngFor="let key of keys" [value]="key" [label]="account_types[key]"></option>
+                            </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="ifsc">IFSC Code</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="ifsc" required [(ngModel)]="account.ifsc" name="ifsc" placeholder="Enter Initial Quantity ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                        </div>
+                    </div>
+              </div>
+              <div class="form-group row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="micr">MICR Code</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="micr" required [(ngModel)]="account.micr" name="micr" placeholder="Enter Initial Quantity ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                          <label class="col-md-4 col-form-label" for="rtgs">RTGS Code</label>
+                          <div class="col-md-8">
+                            <input type="text" class="form-control" id="rtgs" required [(ngModel)]="account.rtgs" name="rtgs" placeholder="Enter RTGS Code ">
+                            <!--<span class="help-block">Please enter your password</span>-->
+                          </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="form-group row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="address">Address</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="address" [(ngModel)]="account.address" name="address" placeholder="Enter Address ">
+                          <!--<span class="help-block">Please enter your password</span>-->
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label" for="city">City</label>
+                        <div class="col-md-8">
+                          <input type="text" class="form-control" id="city" required [(ngModel)]="account.city" name="city" placeholder="Enter City ">
+                          <!--<span class="help-block">Please enter your password</span>-->
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="state">State</label>
+                      <div class="col-md-8">
+                        <input type="text" class="form-control" id="state" required [(ngModel)]="account.state" name="state" placeholder="Enter State ">
+                        <!--<span class="help-block">Please enter your password</span>-->
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label" for="defaultAccSts">Is Default Account</label>
+                      <div class="col-md-8">
+                          <div class="form-check-inline">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="defaultAccSts" id="yes" value="YES" [(ngModel)]="account.defaultAccSts" > Yes
+                              </label>
+                            </div>
+                            <div class="form-check-inline">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="defaultAccSts" id="no" value="NO" 
+                                [(ngModel)]="account.defaultAccSts"> No
+                              </label>
+                            </div>
+                      </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close clicked')">Close</button>
+      <button type="submit" class="btn btn-primary" >Save changes</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</form>
+
+
+

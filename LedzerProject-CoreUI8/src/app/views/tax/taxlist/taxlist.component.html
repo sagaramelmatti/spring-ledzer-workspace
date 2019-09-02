@@ -1,0 +1,54 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+         
+			  <button type="button" class="btn btn-info"  [routerLink]="['/taxes/tax-add']">Add New Tax</button>
+             
+                <br />
+                <br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Percentage</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tax of tax_list">
+                <td>{{tax.id}}</td>
+                <td>{{tax.name}}</td>
+                <td>{{tax.percentage}}</td>
+                <td><button class="btn btn-warning" [routerLink]="['/taxes/tax-edit', tax.id]">Edit</button>&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="remove(tax)">Delete</button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+          <!--
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+          -->
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+

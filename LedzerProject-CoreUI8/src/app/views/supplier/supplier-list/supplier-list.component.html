@@ -1,0 +1,49 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Simple Table
+        </div>
+        <div class="card-body">
+			  <button type="button" class="btn btn-info"  [routerLink]="['/supplier/supplier-add']">Add New Supplier</button>
+                <br />
+                <br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+				<th>Supplier Name</th>
+				<th>Contact person</th>
+				<th>Mobile No</th>
+				<th>City</th>
+				<th>State</th>
+				<th>GSTIN No</th>
+				<th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let supplier of supplier_list">
+                <td>{{supplier.id}}</td>
+                <td>{{supplier.name}}</td>
+                <td>{{supplier.contactPerson}}</td>
+                <td>{{supplier.mobno}}</td>
+                <td>{{supplier.city}}</td>
+                <td>{{supplier.state.name}}</td>
+                <td>{{supplier.gstin}}</td>
+                <td><button class="btn btn-warning" [routerLink]="['/supplier/supplier-edit', supplier.id]"><i class="fa fa-pencil"></i></button>&nbsp;
+                    <button class="btn btn-danger" (click)="remove(supplier)"><i class="fa fa-trash-o"></i></button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+         
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
+
